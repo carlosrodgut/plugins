@@ -78,6 +78,18 @@ jobs:
         with:
           enable_npm: true
           nvmrc_path: ".nvmrc"
+      - name: wait for DynamoDB Local
+        run: |
+          for i in $(seq 1 30); do
+            if curl -s -o /dev/null --connect-timeout 1 http://localhost:8000 2>/dev/null; then
+              echo "DynamoDB Local is ready"
+              exit 0
+            fi
+            echo "Waiting for DynamoDB Local... ($i/30)"
+            sleep 1
+          done
+          echo "ERROR: DynamoDB Local failed to start"
+          exit 1
       - name: install dependencies
         run: npm ci
       - name: install Playwright browsers

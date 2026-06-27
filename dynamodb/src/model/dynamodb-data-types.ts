@@ -11,31 +11,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { defineConfig, devices } from '@playwright/test';
+import { TimeSeriesData } from '@perses-dev/spec';
 
-const CI = process.env.CI === 'true';
+export type DynamoDBTimeSeriesData = TimeSeriesData;
 
-export default defineConfig({
-  testDir: './src/tests',
-  fullyParallel: true,
-  retries: CI ? 2 : 0,
-  reporter: CI ? [['github'], ['list', { printSteps: true }]] : 'list',
-
-  use: {
-    baseURL: 'http://localhost:8080',
-    trace: CI ? 'on-first-retry' : 'off',
-    screenshot: 'only-on-failure',
-    video: CI ? 'on-first-retry' : 'off',
-  },
-
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-  ],
-
-  expect: {
-    timeout: 10000,
-  },
-});
+export interface TimeSeriesItem {
+  timestamp: string;
+  metric_value: number | string;
+}

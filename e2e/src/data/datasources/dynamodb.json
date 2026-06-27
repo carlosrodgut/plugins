@@ -1,0 +1,19 @@
+[
+  {
+    "kind": "Datasource",
+    "metadata": {
+      "name": "DynamoDBDemo",
+      "project": "e2eproject"
+    },
+    "spec": {
+      "default": true,
+      "plugin": {
+        "kind": "DynamoDBDatasource",
+        "spec": {
+          "region": "us-east-1",
+          "directUrl": "http://localhost:9999"
+        }
+      }
+    }
+  }
+]

@@ -10,3 +10,9 @@ services:
     volumes:
       - ../../plugins/development-archives:/etc/perses/development-archives
       - ../../e2e/src/data:/etc/perses/provisioning
+
+  dynamodb-local:
+    image: amazon/dynamodb-local:latest
+    container_name: dynamodb-local
+    network_mode: host
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb"]
