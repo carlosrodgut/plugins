@@ -4,12 +4,13 @@
   "description": "e2e tests for plugins",
   "private": true,
   "scripts": {
-    "test:ci": "npx playwright test --workers=1 --reporter=github,list",
+    "test:ci": "npx playwright test --workers=1",
     "test:install": "npx playwright install --with-deps",
     "test:local": "npx playwright test --ui",
     "build": "echo 'Skipping build for e2e tests'"
   },
   "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1075.0",
     "@playwright/test": "^1.58.2",
     "@types/node": "^25.2.3"
   }

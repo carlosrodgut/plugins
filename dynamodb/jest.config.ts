@@ -11,31 +11,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { defineConfig, devices } from '@playwright/test';
+import type { Config } from '@jest/types';
+import shared from '../jest.shared';
 
-const CI = process.env.CI === 'true';
+const jestConfig: Config.InitialOptions = {
+  ...shared,
 
-export default defineConfig({
-  testDir: './src/tests',
-  fullyParallel: true,
-  retries: CI ? 2 : 0,
-  reporter: CI ? [['github'], ['list', { printSteps: true }]] : 'list',
+  setupFilesAfterEnv: [...(shared.setupFilesAfterEnv ?? []), '<rootDir>/src/setup-tests.ts'],
+};
 
-  use: {
-    baseURL: 'http://localhost:8080',
-    trace: CI ? 'on-first-retry' : 'off',
-    screenshot: 'only-on-failure',
-    video: CI ? 'on-first-retry' : 'off',
-  },
-
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-  ],
-
-  expect: {
-    timeout: 10000,
-  },
-});
+export default jestConfig;

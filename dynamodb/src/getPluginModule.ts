@@ -11,31 +11,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { defineConfig, devices } from '@playwright/test';
+import { PluginModuleResource, PluginModuleSpec } from '@perses-dev/plugin-system';
+import packageJson from '../package.json';
 
-const CI = process.env.CI === 'true';
-
-export default defineConfig({
-  testDir: './src/tests',
-  fullyParallel: true,
-  retries: CI ? 2 : 0,
-  reporter: CI ? [['github'], ['list', { printSteps: true }]] : 'list',
-
-  use: {
-    baseURL: 'http://localhost:8080',
-    trace: CI ? 'on-first-retry' : 'off',
-    screenshot: 'only-on-failure',
-    video: CI ? 'on-first-retry' : 'off',
-  },
-
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+/**
+ * Returns the plugin module information from package.json
+ */
+export function getPluginModule(): PluginModuleResource {
+  const { name, version, perses } = packageJson;
+  return {
+    kind: 'PluginModule',
+    metadata: {
+      name,
+      version,
     },
-  ],
-
-  expect: {
-    timeout: 10000,
-  },
-});
+    spec: perses as PluginModuleSpec,
+  };
+}

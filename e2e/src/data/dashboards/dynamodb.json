@@ -1,0 +1,67 @@
+[
+  {
+    "kind": "Dashboard",
+    "metadata": {
+      "name": "DynamoDBOverview",
+      "project": "e2eproject"
+    },
+    "spec": {
+      "duration": "1h",
+      "panels": {
+        "myPanel": {
+          "kind": "Panel",
+          "spec": {
+            "display": {
+              "name": "DynamoDB Metrics"
+            },
+            "plugin": {
+              "kind": "TimeSeriesChart",
+              "spec": {}
+            },
+            "queries": [
+              {
+                "kind": "TimeSeriesQuery",
+                "spec": {
+                  "plugin": {
+                    "kind": "DynamoDBTimeSeriesQuery",
+                    "spec": {
+                      "query": "SELECT timestamp, metric_value FROM my_table ORDER BY timestamp",
+                      "datasource": {
+                        "kind": "DynamoDBDatasource",
+                        "name": "DynamoDBDemo"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "layouts": [
+        {
+          "kind": "Grid",
+          "spec": {
+            "display": {
+              "title": "DynamoDB Data",
+              "collapse": {
+                "open": true
+              }
+            },
+            "items": [
+              {
+                "x": 0,
+                "y": 0,
+                "width": 12,
+                "height": 6,
+                "content": {
+                  "$ref": "#/spec/panels/myPanel"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+]
